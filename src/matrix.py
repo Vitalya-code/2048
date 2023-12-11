@@ -1,13 +1,15 @@
+import random
+
 class Matrix:
     def __init__(self, rows: int, columns: int):
         self.__rows = rows
         self.__columns = columns
         # create a matrix
         self.__matrix = []
-        self.__matrix.append([2, 0, 0, 2])
+        self.__matrix.append([2, 0, 2, 0])
         self.__matrix.append([0, 0, 0, 0])
-        self.__matrix.append([0, 2, 0, 0])
-        self.__matrix.append([0, 0, 2, 0])
+        self.__matrix.append([0, 0, 0, 2])
+        self.__matrix.append([0, 2, 2, 0])
 
     def get_matrix(self):
         return self.__matrix
@@ -37,12 +39,12 @@ class Matrix:
 
         return random.choice(possible_cells)
 
-    def spawn_new_cell(self):
+    def spawn_new_cell(self, value):
         random_cell = self.get_random_cell()
         if random_cell is False:
             return False
 
-        self.set(SPAWN_CELL_VALUE, random_cell[0], random_cell[1])
+        self.set(value, random_cell[0], random_cell[1])
         return True
 
     def left(self):
@@ -51,16 +53,28 @@ class Matrix:
         columns = self.__columns
         # we iterate through each element in the matrix
         for x in range(0, columns):
+            moved_from = []
+            moved_to = []
+
             for y in range(0, rows):
                 if self.get(x, y) != 0:
                     move_to = x
                     old_value = self.get(x, y)
                     while move_to > 0:
-                        move_to = move_to - 1
-                        print(move_to)
-                        if self.get(move_to, y) != 0:
-                            move_to = move_to + 1
+                        if self.get(move_to-1, y) == 0:
+                            move_to = move_to - 1
+                        else:
                             break
-
-                    self.set(old_value, move_to, y)
-                    self.set(0, x, y)
+                    
+                    moved_from.append(x)
+                    moved_to.append(move_to)
+              
+            
+            print(moved_to, moved_from)
+            
+            for i in range(0, len(moved_from)):
+                temp = self.get(moved_from[i], y)
+                self.set(temp, moved_to[i], y)
+            
+        
+        

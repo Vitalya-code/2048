@@ -1,3 +1,9 @@
-from matrix import matrix
+from matrix import Matrix
 
-matrix1 = matrix(4,4)
+
+matrix1 = Matrix(4,4)
+print("BEFORE")
+matrix1.print()
+matrix1.left()
+print("AFTER")
+matrix1.print()
