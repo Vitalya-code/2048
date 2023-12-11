@@ -1,15 +1,21 @@
 import random
 
+
 class Matrix:
     def __init__(self, rows: int, columns: int):
         self.__rows = rows
         self.__columns = columns
+        self.__score = 0
+
         # create a matrix
         self.__matrix = []
-        self.__matrix.append([2, 0, 2, 0])
         self.__matrix.append([0, 0, 0, 0])
-        self.__matrix.append([0, 0, 0, 2])
-        self.__matrix.append([0, 2, 2, 0])
+        self.__matrix.append([0, 0, 0, 0])
+        self.__matrix.append([0, 0, 0, 0])
+        self.__matrix.append([0, 0, 0, 0])
+
+    def get_score(self):
+        return self.__score
 
     def get_matrix(self):
         return self.__matrix
@@ -47,34 +53,69 @@ class Matrix:
         self.set(value, random_cell[0], random_cell[1])
         return True
 
-    def left(self):
-        # this is super complicated, good luck
-        rows = self.__rows
-        columns = self.__columns
-        # we iterate through each element in the matrix
-        for x in range(0, columns):
-            moved_from = []
-            moved_to = []
+    def move_and_merge(self, row):
+        merged = row
 
-            for y in range(0, rows):
-                if self.get(x, y) != 0:
-                    move_to = x
-                    old_value = self.get(x, y)
-                    while move_to > 0:
-                        if self.get(move_to-1, y) == 0:
-                            move_to = move_to - 1
-                        else:
-                            break
-                    
-                    moved_from.append(x)
-                    moved_to.append(move_to)
-              
-            
-            print(moved_to, moved_from)
-            
-            for i in range(0, len(moved_from)):
-                temp = self.get(moved_from[i], y)
-                self.set(temp, moved_to[i], y)
-            
-        
-        
+        for x, value in enumerate(row):
+            for i in range(x, 0, -1):
+                if row[i - 1] == 0:
+                    merged[i - 1] = value
+                    merged[i] = 0
+                elif row[i - 1] != 0:
+                    if row[i - 1] == row[i]:
+                        merged[i - 1] = merged[i - 1] * 2
+                        merged[i] = 0
+                        self.__score = self.__score + merged[i - 1]
+
+                        break
+                    break
+
+        return merged
+
+    def flip_matrix_horizontally(self, matrix):
+        # borrowed from internet
+        return [row[::-1] for row in matrix]
+
+    def flip_matrix_vertically(self, matrix):
+        # borrowed from internet
+        return matrix[::-1]
+
+    def rotate_right(self, matrix):
+        # borrowed from internet
+        transposed_matrix = [list(row) for row in zip(*matrix)]
+        rotated_matrix = [row[::-1] for row in transposed_matrix]
+        return rotated_matrix
+
+    def left(self):
+        for i, row in enumerate(self.__matrix):
+            new_row = self.move_and_merge(row)
+            self.__matrix[i] = new_row
+
+    def right(self):
+        # instead of doing another function, we just flip
+        # the matrix horizontally and reuse the old code
+        # and then flip it again
+
+        self.__matrix = self.flip_matrix_horizontally(self.__matrix)
+        for i, row in enumerate(self.__matrix):
+            new_row = self.move_and_merge(row)
+            self.__matrix[i] = new_row
+        self.__matrix = self.flip_matrix_horizontally(self.__matrix)
+
+    def up(self):
+        self.__matrix = self.rotate_right(self.__matrix)
+        self.__matrix = self.rotate_right(self.__matrix)
+        self.__matrix = self.rotate_right(self.__matrix)
+        for i, row in enumerate(self.__matrix):
+            new_row = self.move_and_merge(row)
+            self.__matrix[i] = new_row
+        self.__matrix = self.rotate_right(self.__matrix)
+
+    def down(self):
+        self.__matrix = self.rotate_right(self.__matrix)
+        for i, row in enumerate(self.__matrix):
+            new_row = self.move_and_merge(row)
+            self.__matrix[i] = new_row
+        self.__matrix = self.rotate_right(self.__matrix)
+        self.__matrix = self.rotate_right(self.__matrix)
+        self.__matrix = self.rotate_right(self.__matrix)
