@@ -12,9 +12,14 @@ TEXT_SPACING = 60
 CELL_SPACING = 10
 
 BACKGROUND_COLOR = (22, 26, 48)
-CELL_COLOR = (49, 48, 77)
+CELL_COLOR = (124, 255,255)
 CELL_OUTLINE_COLOR = (182, 187, 196)
 TEXT_COLOR = (240, 236, 229)
+CELL_COLOR_LIST = [(238, 228, 218),(237, 224, 200), (242, 177, 121), (245, 149, 99),(246, 124, 95), (246, 94, 59), (237, 207, 114), (237, 204, 97), (237, 200, 80), (237, 197, 63),(237, 194, 46)]
+
+# COLOR_OTHER = Color.BLACK;
+# COLOR_GAME_OVER = Color.rgb(238, 228, 218, 0.73);
+
 
 
 class Game:
@@ -76,7 +81,15 @@ class Game:
     def draw_matrix(self, matrix, display):
         for count_y, y in enumerate(matrix):
             for count_x, x in enumerate(y):
+                import math
                 if x != 0:
+                    CELL_COLOR = CELL_COLOR_LIST[math.ceil(math.sqrt(x))-1]
+                
+                
+                    print(math.floor(math.sqrt(x)))
+                
+                if x != 0:
+                    # draw outline
                     pygame.draw.rect(
                         display,
                         CELL_OUTLINE_COLOR,
@@ -88,6 +101,7 @@ class Game:
                         ),
                     )
 
+                    # draw cell
                     pygame.draw.rect(
                         display,
                         CELL_COLOR,
@@ -98,6 +112,7 @@ class Game:
                             CELL_SIZE_Y - CELL_SPACING,
                         ),
                     )
+                # draw text if not zero
                 if x != 0:
                     font = pygame.font.SysFont("arial", FONT_SIZE)
                     text = font.render(str(x), True, TEXT_COLOR)
