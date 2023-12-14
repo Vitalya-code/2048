@@ -80,11 +80,13 @@ class Matrix:
         # borrowed from internet
         return matrix[::-1]
 
-    def rotate_right(self, matrix):
+    def rotate_right(self, matrix, times=1):
         # borrowed from internet
-        transposed_matrix = [list(row) for row in zip(*matrix)]
-        rotated_matrix = [row[::-1] for row in transposed_matrix]
-        return rotated_matrix
+        for _ in range(0, times):
+            transposed_matrix = [list(row) for row in zip(*matrix)]
+            matrix = [row[::-1] for row in transposed_matrix]
+            
+        return matrix
 
     def left(self):
         for i, row in enumerate(self.__matrix):
@@ -103,9 +105,7 @@ class Matrix:
         self.__matrix = self.flip_matrix_horizontally(self.__matrix)
 
     def up(self):
-        self.__matrix = self.rotate_right(self.__matrix)
-        self.__matrix = self.rotate_right(self.__matrix)
-        self.__matrix = self.rotate_right(self.__matrix)
+        self.__matrix = self.rotate_right(self.__matrix, 3)
         for i, row in enumerate(self.__matrix):
             new_row = self.move_and_merge(row)
             self.__matrix[i] = new_row
@@ -116,6 +116,5 @@ class Matrix:
         for i, row in enumerate(self.__matrix):
             new_row = self.move_and_merge(row)
             self.__matrix[i] = new_row
-        self.__matrix = self.rotate_right(self.__matrix)
-        self.__matrix = self.rotate_right(self.__matrix)
-        self.__matrix = self.rotate_right(self.__matrix)
+        self.__matrix = self.rotate_right(self.__matrix, 3)
+   
