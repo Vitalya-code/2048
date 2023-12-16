@@ -85,7 +85,7 @@ class Matrix:
         for _ in range(0, times):
             transposed_matrix = [list(row) for row in zip(*matrix)]
             matrix = [row[::-1] for row in transposed_matrix]
-            
+
         return matrix
 
     def left(self):
@@ -117,4 +117,3 @@ class Matrix:
             new_row = self.move_and_merge(row)
             self.__matrix[i] = new_row
         self.__matrix = self.rotate_right(self.__matrix, 3)
-   
