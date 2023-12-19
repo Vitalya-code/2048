@@ -9,8 +9,11 @@ CELL_SIZE_Y = 200
 FONT_SIZE = 100
 TEXT_SPACING = 60
 CELL_SPACING = 10
-BACKGROUND_COLOR = (187, 173, 160)
-CELL_OUTLINE_COLOR = (182, 187, 196)
+
+
+# COLORS
+BACKGROUND_COLOUR = (187, 173, 160)
+CELL_OUTLINE_COLOUR = (182, 187, 196)
 
 # For tiles >= 8
 TEXT_COLOUR_WHITE = (249, 246, 242)
@@ -18,7 +21,7 @@ TEXT_COLOUR_WHITE = (249, 246, 242)
 # For tiles < 8
 TEXT_COLOUR_BLACK = (119, 110, 101)
 
-CELL_COLOR_LIST = {
+CELL_COLOUR_LIST = {
     2: (238, 228, 218),  # 2
     4: (237, 224, 200),  # 4
     8: (242, 177, 121),  # 8
@@ -40,7 +43,7 @@ class Game:
         # first we create 4 by 4 matrix
         matrix = Matrix(rows, columns)
         # then we spawn 2 cells
-        for i in range(0, 2):
+        for _ in range(0, 2):
             matrix.spawn_new_cell(2)
 
         # initialise pygame and set display to 800 by 800
@@ -78,7 +81,7 @@ class Game:
                             running = False
                         move_ticker = 10
 
-            display.fill(BACKGROUND_COLOR)
+            display.fill(BACKGROUND_COLOUR)
             # we render our matrix to thg screen
             self.draw_matrix(matrix.get_matrix(), display)
 
@@ -92,11 +95,11 @@ class Game:
         for count_y, y in enumerate(matrix):
             for count_x, x in enumerate(y):
                 if x != 0:
-                    CELL_COLOR = CELL_COLOR_LIST[x]
+                    CELL_COLOUR = CELL_COLOUR_LIST[x]
                     # draw outline
                     pygame.draw.rect(
                         display,
-                        CELL_OUTLINE_COLOR,
+                        CELL_OUTLINE_COLOUR,
                         (
                             count_x * CELL_SIZE_X,
                             count_y * CELL_SIZE_Y,
@@ -108,7 +111,7 @@ class Game:
                     # draw cell
                     pygame.draw.rect(
                         display,
-                        CELL_COLOR,
+                        CELL_COLOUR,
                         (
                             count_x * CELL_SIZE_X + CELL_SPACING / 2,
                             count_y * CELL_SIZE_Y + CELL_SPACING / 2,

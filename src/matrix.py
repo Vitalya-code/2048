@@ -9,10 +9,8 @@ class Matrix:
 
         # create a matrix
         self.__matrix = []
-        self.__matrix.append([0, 0, 0, 0])
-        self.__matrix.append([0, 0, 0, 0])
-        self.__matrix.append([0, 0, 0, 0])
-        self.__matrix.append([0, 0, 0, 0])
+        for _ in range(rows):
+            self.__matrix.append([0] * columns)
 
     def get_score(self):
         return self.__score
